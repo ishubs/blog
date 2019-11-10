@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block page_content %}
+<div class="col-md-8 offset-md-2">
+        <hr>
+    {% for post in posts %}
+    <a href="{% url 'blog_detail' post.pk%} " style="text-decoration: none; color: black ">
+        <div class="card mt-5 ">
+            <div >
+            <img src="{{post.image.url}}" class="card-img-top" alt="..." style="height: 20rem">
+            
+             </div>
+            <div class="card-img-overlay">
+                <h2 class="card-title" style="text-align: center;font-family: 'Cinzel', serif; ">
+                    <div class="container" style="margin-top: 25%" >
+                        <strong>
+                           <span class="align-middle" > {{ post.title }}</span>
+                       </strong>
+                    </div>
+                </h2>
+            </div>
+            
+            <div class="card-body">
+            <p class="ml-5 mr-5">{{ post.body | slice:":600" }}...</p>
+            
+            </div>
+            <small style="text-align: center;">
+                {{ post.created_on.date }} &nbsp;
+               
+            </small>
+
+            </div>
+    </a>
+    {% endfor %}
+</div>
+<div class="container  d-flex justify-content-center mt-5 pt-5 mb-5 pb-5" >
+    
+        <div class="card text-center" style="width: 30% ; background-color:  #FF43A4;">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <div class="card-title">
+                        <legend class="border-bottom mb-4" style="color: white;">SUBSCRIBE</legend>
+                    </div>
+                    <div class="card-body">
+                    {{ form|crispy }}
+                    </div>
+
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-submit " style="background: #fff;" type="submit">subscribe</button>
+                </div>
+            </form>
+        </div>
+    
+    
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block page_content %}
+<div style="margin-left: 300px; margin-right: 300px" >
+    <div class="container" style="text-align: center; ">
+        <div class="container" >
+        <h1 class=" mt-5 mb-5 pt-10 pb-10 " style="font-family: 'Cinzel', serif;">{{ post.title }}</h1>
+        </div>
+    </div>
+    <small>
+        {{ post.created_on.date }} |&nbsp;
+    </small>
+    <div class="container" style="height:20rem ;background-image:url('{{post.image.url}}'); background-size: cover;">
+        
+    </div>
+    <div class="container mt-5">
+        <p class="mx-auto" style="text-align: center ;font-size:26">{{ post.body | linebreaks }}</p>
+    </div>
+</div>
+
+<div class="container mt-5 mb-5 pt-5 pb-5" style="background-color: #FF43A4; border-radius: 30px">
+    <h2 style="color: white">More from blog-name</h2>
+    <div class="card-group mt-5">
+
+    {% for x in list%}
+        
+        
+
+            <div class="card ml-1 mr-1  ">
+                <a href="{% url 'blog_detail' x.pk%}" style="text-decoration: none; color: black ">
+                <img src="{{x.image.url}}" class="card-img-top" alt="...">
+                <div class="card-body" >
+                    <div class="card-title" style="font-family: 'Cinzel';"><h4>{{x.title}}</h4></div>
+                    <div class="card-text">{{ x.body | slice:":150" }}...</div>
+                </div>
+            </div>
+        </a>
+       
+    {% endfor %}
+    </div>
+</div>
+
+<div class="container">
+    <div>
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset>
+            {{form|crispy}}
+        </fieldset>
+         <div class="form-group">
+                    <button class="btn btn-success" type="submit">post</button>
+         </div>
+    </form>
+    
+    </div>
+    <h3>Comments:</h3>
+    {% for comment in comments %}
+    <p>
+        On {{comment.created_on.date }}&nbsp;
+        <b>{{ comment.author }}</b> wrote:
+    </p>
+    <p>{{ comment.body }}</p>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock %}
+
